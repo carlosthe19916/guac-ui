@@ -1,0 +1,18 @@
+.pf-c-select__toggle:before {
+  border-top: var(--pf-c-select__toggle--before--BorderTopWidth) solid
+    var(--pf-c-select__toggle--before--BorderTopColor) !important;
+  border-right: var(--pf-c-select__toggle--before--BorderRightWidth) solid
+    var(--pf-c-select__toggle--before--BorderRightColor) !important;
+  border-bottom: var(--pf-c-select__toggle--before--BorderBottomWidth) solid
+    var(--pf-c-select__toggle--before--BorderBottomColor) !important;
+  border-left: var(--pf-c-select__toggle--before--BorderLeftWidth) solid
+    var(--pf-c-select__toggle--before--BorderLeftColor) !important;
+}
+
+/* table.vertical-aligned-table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table.vertical-aligned-table > tbody > tr > td.pf-v5-c-table__toggle > button {
+  vertical-align: middle;
+} */
