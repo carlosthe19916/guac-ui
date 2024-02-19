@@ -51,7 +51,9 @@ export const SpxdPackages: React.FC<SpxdPackagesProps> = ({ sbom }) => {
         packageUrl = PackageURL.fromString(
           (e.externalRefs || [])[0].referenceLocator
         );
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
       return {
         ...e,
         id: `${e.name}_${e.versionInfo}`,
@@ -142,13 +144,15 @@ export const SpxdPackages: React.FC<SpxdPackagesProps> = ({ sbom }) => {
           numRenderedColumns={numRenderedColumns}
         >
           {currentPageItems?.map((item, rowIndex) => {
-            let packageUrl = item.externalRefs
+            const packageUrl = item.externalRefs
               ?.filter((e) => e.referenceLocator)
               .map((e) => {
                 let packageUrl;
                 try {
                   packageUrl = PackageURL.fromString(e.referenceLocator);
-                } catch (e) {}
+                } catch (e) {
+                  console.log(e);
+                }
                 return packageUrl;
               })
               .find((e) => e);
@@ -194,7 +198,9 @@ export const SpxdPackages: React.FC<SpxdPackagesProps> = ({ sbom }) => {
                                     ?.map((e) => e.referenceLocator)
                                     .map((e, index) => (
                                       <ListItem key={index}>
-                                        <NavLink to={`/packages/${encodeURIComponent(e)}`}>
+                                        <NavLink
+                                          to={`/packages/${encodeURIComponent(e)}`}
+                                        >
                                           {e}
                                         </NavLink>
                                       </ListItem>
@@ -260,7 +266,9 @@ export const CycloneDxPackages: React.FC<CycloneDxPackagesProps> = ({
         if (e.purl) {
           packageUrl = PackageURL.fromString(e.purl);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
       return {
         ...e,
         package: packageUrl,

@@ -1,5 +1,4 @@
 import { ToolbarChip } from "@patternfly/react-core";
-import { dataTagSymbol } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import dayjs from "dayjs";
 

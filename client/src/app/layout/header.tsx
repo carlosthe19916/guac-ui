@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,6 @@ import {
   MenuToggle,
   MenuToggleElement,
   PageToggleButton,
-  Title,
   Toolbar,
   ToolbarContent,
   ToolbarGroup,
@@ -101,7 +100,7 @@ export const HeaderApp: React.FC = () => {
                 <ToolbarGroup
                   variant="icon-button-group"
                   visibility={{ default: "hidden", lg: "visible" }}
-                >                  
+                >
                   <ToolbarItem>
                     <Button
                       aria-label="About"

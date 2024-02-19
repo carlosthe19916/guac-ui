@@ -1,9 +1,8 @@
 import React from "react";
 
 import { Divider, Flex, FlexItem } from "@patternfly/react-core";
-import ShieldIcon from "@patternfly/react-icons/dist/esm/icons/shield-alt-icon";
 
-import { RHSeverity, Severity } from "@app/api/models";
+import { Severity } from "@app/api/models";
 import { SeverityShield } from "./severity";
 
 interface VulnerabilitiesCountProps {
@@ -13,9 +12,12 @@ interface VulnerabilitiesCountProps {
 export const VulnerabilitiesCount: React.FC<VulnerabilitiesCountProps> = ({
   severities,
 }) => {
-  let total = Object.entries(severities).reduce((prev, [_severity, count]) => {
-    return prev + count;
-  }, 0);
+  const total = Object.entries(severities).reduce(
+    (prev, [_severity, count]) => {
+      return prev + count;
+    },
+    0
+  );
 
   return (
     <Flex

@@ -13,7 +13,7 @@ interface RHSeverityShieldProps {
 export const RHSeverityShield: React.FC<RHSeverityShieldProps> = ({
   value,
 }) => {
-  let severityProps = severityList[value];
+  const severityProps = severityList[value];
 
   return (
     <Flex

@@ -1,14 +1,7 @@
 import React from "react";
-import { NavLink, useMatch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import {
-  Nav,
-  NavExpandable,
-  NavGroup,
-  NavItem,
-  NavList,
-  PageSidebar,
-} from "@patternfly/react-core";
+import { Nav, NavList, PageSidebar } from "@patternfly/react-core";
 import { css } from "@patternfly/react-styles";
 
 import { LayoutTheme } from "./layout-constants";

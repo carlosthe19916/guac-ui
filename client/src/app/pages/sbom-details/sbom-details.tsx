@@ -63,7 +63,7 @@ export const SbomDetails: React.FC = () => {
 
   const { downloadSbom } = useDownload();
 
-  let vulnerabilities = useMemo(() => {
+  const vulnerabilities = useMemo(() => {
     return sbomVulnerabilities && sbomVulnerabilities.summary.length === 1
       ? (sbomVulnerabilities.summary[0].reduce((prev: any, current: any) => {
           return typeof current === "string" ? prev : current;

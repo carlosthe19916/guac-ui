@@ -7,18 +7,17 @@ import {
   List,
   ListItem,
   TreeView,
-  TreeViewDataItem
+  TreeViewDataItem,
 } from "@patternfly/react-core";
-
 
 const branchToTreeViewDataItem = (branches: { [k: string]: string[] }) => {
   return Object.entries(branches).map(([key, value]) => {
-    let result: TreeViewDataItem = {
+    const result: TreeViewDataItem = {
       name: key,
       children: value.map((child) => {
-        let title_splited = child.split(":");
+        const title_splited = child.split(":");
 
-        let treeChild: TreeViewDataItem = {
+        const treeChild: TreeViewDataItem = {
           name:
             title_splited.length === 2
               ? `${title_splited[1]} (${title_splited[0]})`

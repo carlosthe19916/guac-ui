@@ -7,7 +7,7 @@ import {
   Label,
   List,
   ListItem,
-  ToolbarContent
+  ToolbarContent,
 } from "@patternfly/react-core";
 import {
   ExpandableRowContent,
@@ -211,7 +211,11 @@ export const Vulnerabilities: React.FC<VulnerabilitiesProps> = ({
                                 <List>
                                   {item.references.map((e, index) => (
                                     <ListItem key={index}>
-                                      <a href={e.url} target="_blank">
+                                      <a
+                                        href={e.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                      >
                                         {e.summary} <Label>{e.category}</Label>
                                       </a>
                                     </ListItem>

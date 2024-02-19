@@ -5,7 +5,7 @@ import { CodeEditor, Language } from "@patternfly/react-code-editor";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  PageSection
+  PageSection,
 } from "@patternfly/react-core";
 
 import DetailsPage from "@patternfly/react-component-groups/dist/dynamic/DetailsPage";

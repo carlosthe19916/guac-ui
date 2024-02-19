@@ -55,6 +55,6 @@ export const AppRoutes = () => {
 };
 
 export const useRouteParams = (pathParam: PathParam) => {
-  let params = useParams();
+  const params = useParams();
   return params[pathParam];
 };

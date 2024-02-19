@@ -2,13 +2,11 @@ import { Skeleton } from "@patternfly/react-core";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import {
-    Td as PFTd
-} from "@patternfly/react-table";
+import { Td as PFTd } from "@patternfly/react-table";
 
 import {
-    ConditionalTableBody,
-    useClientTableBatteries,
+  ConditionalTableBody,
+  useClientTableBatteries,
 } from "@mturley-latest/react-table-batteries";
 
 import { RENDER_DATE_FORMAT } from "@app/Constants";

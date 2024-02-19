@@ -89,7 +89,7 @@ export const usePackageList = () => {
               value: "This year",
             },
             ...[...Array(3)].map((_, index) => {
-              let date = dayjs()
+              const date = dayjs()
                 .startOf("year")
                 .subtract(index + 1, "year");
               return {

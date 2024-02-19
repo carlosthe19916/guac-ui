@@ -33,7 +33,7 @@ import { CSAFCategoryLabel } from "./csaf-category";
 
 const branchToTreeViewDataItem = (branches: Branch[]) => {
   return branches.map((branch) => {
-    let result: TreeViewDataItem = {
+    const result: TreeViewDataItem = {
       name: (
         <Flex>
           <FlexItem spacer={{ default: "spacerSm" }}>{branch.name}</FlexItem>
@@ -65,7 +65,7 @@ export const Overview: React.FC<OverviewProps> = ({ advisory }) => {
     return blob.size;
   }, [advisory]);
 
-  let productTreeData = useMemo(() => {
+  const productTreeData = useMemo(() => {
     return branchToTreeViewDataItem(advisory.product_tree.branches);
   }, [advisory]);
 
@@ -203,7 +203,7 @@ export const Overview: React.FC<OverviewProps> = ({ advisory }) => {
                   <List>
                     {advisory.document.references.map((e, index) => (
                       <ListItem key={index}>
-                        <a href={e.url} target="_blank">
+                        <a href={e.url} target="_blank" rel="noreferrer">
                           {e.summary} <ExternalLinkAltIcon />
                         </a>{" "}
                         <Label color="blue" isCompact>

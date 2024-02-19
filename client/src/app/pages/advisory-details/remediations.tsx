@@ -1,7 +1,5 @@
 import {
   ExpandableRowContent,
-  IExtraData,
-  IRowData,
   Table,
   Tbody,
   Td,
@@ -52,7 +50,7 @@ export const Remediations: React.FC<RemediationsProps> = ({ vulnerabily }) => {
               />
               <Td>
                 {item.url ? (
-                  <a href={item.url} target="_blank">
+                  <a href={item.url} target="_blank" rel="noreferrer">
                     {item.category}
                   </a>
                 ) : (
@@ -68,7 +66,7 @@ export const Remediations: React.FC<RemediationsProps> = ({ vulnerabily }) => {
                   <ExpandableRowContent>
                     <List>
                       {item.product_ids.map((e, index) => {
-                        let title_splited = e.split(":");
+                        const title_splited = e.split(":");
 
                         return (
                           <ListItem key={index}>

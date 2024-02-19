@@ -9,8 +9,6 @@ import {
   CardTitle,
   Flex,
   FlexItem,
-  Gallery,
-  GalleryItem,
   Grid,
   GridItem,
   Icon,
@@ -181,6 +179,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/searching-for-vulnerability-information_tc-qsg"
+                          rel="noreferrer"
                         >
                           Searching for vulnerability information
                         </a>
@@ -189,6 +188,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/scanning-an-sbom-file_tc-qsg"
+                          rel="noreferrer"
                         >
                           Scanning a software bill of materials file
                         </a>
@@ -197,6 +197,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/configuring-visual-studio-code-to-use-dependency-analytics_tc-qsg"
+                          rel="noreferrer"
                         >
                           Configuring Visual Studio Code to use Dependency
                           Analytics
@@ -206,6 +207,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/configuring-intellij-to-use-dependency-analytics_tc-qsg"
+                          rel="noreferrer"
                         >
                           Configuring IntelliJ to use Dependency Analytics
                         </a>
@@ -214,6 +216,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/reference_guide/glossary_tc-ref"
+                          rel="noreferrer"
                         >
                           Glossary
                         </a>
@@ -222,6 +225,7 @@ export const Home: React.FC = () => {
                         <a
                           target="_blank"
                           href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/reference_guide/frequently-asked-questions_tc-ref"
+                          rel="noreferrer"
                         >
                           Frecuently Asked Questions
                         </a>

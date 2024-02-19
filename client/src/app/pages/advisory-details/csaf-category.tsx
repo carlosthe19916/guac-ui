@@ -25,7 +25,7 @@ interface CSAFCategoryLabelProps {
 export const CSAFCategoryLabel: React.FC<CSAFCategoryLabelProps> = ({
   value,
 }) => {
-  let objProps = list[value as CSAF_Category] ?? { label: value };
+  const objProps = list[value as CSAF_Category] ?? { label: value };
 
   return <>{objProps.label}</>;
 };

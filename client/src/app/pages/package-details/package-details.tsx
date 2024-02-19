@@ -32,7 +32,9 @@ export const PackageDetails: React.FC = () => {
     if (pkg) {
       try {
         return PackageURL.fromString(pkg.purl);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [pkg]);
 

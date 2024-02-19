@@ -21,7 +21,6 @@ import {
   TextContent,
   ToolbarContent,
 } from "@patternfly/react-core";
-import HelpIcon from "@patternfly/react-icons/dist/esm/icons/help-icon";
 
 import { FilterType } from "@mturley-latest/react-table-batteries";
 
@@ -115,10 +114,13 @@ export const Search: React.FC = () => {
       break;
     case TabIndex.Packages:
       filter = filterPackages;
+      break;
     case TabIndex.SBOMs:
       filter = filterSboms;
+      break;
     case TabIndex.Advisories:
       filter = filterAdvisories;
+      break;
     default:
       break;
   }

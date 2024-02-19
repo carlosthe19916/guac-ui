@@ -5,12 +5,27 @@ import { getDAReport } from "@app/api/rest";
 
 export const ReportsQueryKey = "reports";
 
-export const useCreateDAReportMutation = (id: string, sbom: string) => {
+function stringToHash(value: string) {
+  let hash = 0;
+
+  if (value.length == 0) return hash;
+
+  for (let i = 0; i < value.length; i++) {
+    const char = value.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+
+  return hash;
+}
+
+export const useCreateDAReportMutation = (sbom?: string) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: [ReportsQueryKey, id],
+    // eslint-disable-next-line
+    queryKey: [ReportsQueryKey, sbom ? stringToHash(sbom) : 0],
     queryFn: () =>
-      id === undefined ? Promise.resolve(undefined) : getDAReport(sbom),
-    enabled: id !== undefined,
+      sbom === undefined ? Promise.resolve(undefined) : getDAReport(sbom),
+    enabled: sbom !== undefined,
   });
 
   return {

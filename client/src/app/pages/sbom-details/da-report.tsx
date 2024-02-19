@@ -7,12 +7,7 @@ interface DAReportProps {
 }
 
 export const DAReport: React.FC<DAReportProps> = ({ sbom }) => {
-  const id = React.useRef(Math.random());
-
-  const { report, isFetching, fetchError } = useCreateDAReportMutation(
-    id.current.toString(),
-    sbom
-  );
+  const { report, isFetching, fetchError } = useCreateDAReportMutation(sbom);
 
   return (
     <>

@@ -16,8 +16,8 @@ export const SeverityRenderer: React.FC<SeverityRendererProps> = ({
   score,
   severity,
 }) => {
-  let severityType = severity || severityFromNumber(score);
-  let severityProps = baseSeverityList[severityType];
+  const severityType = severity || severityFromNumber(score);
+  const severityProps = baseSeverityList[severityType];
   if (variant == "label") {
     return (
       <Label

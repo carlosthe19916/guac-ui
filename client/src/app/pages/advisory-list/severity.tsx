@@ -45,7 +45,7 @@ export const SeverityShield: React.FC<SeverityShieldProps> = ({
   value,
   showLabel,
 }) => {
-  let severityProps = severityList[value];
+  const severityProps = severityList[value];
 
   return (
     <Flex

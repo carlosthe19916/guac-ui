@@ -42,11 +42,7 @@ export type TrustificationEnvType = {
  * Keys in `TrustificationEnv` that are only used on the server and therefore do not
  * need to be sent to the client.
  */
-export const SERVER_ENV_KEYS = [
-  "PORT",
-  "TRUSTIFICATION_HUB_URL",
-  "BRANDING",
-];
+export const SERVER_ENV_KEYS = ["PORT", "TRUSTIFICATION_HUB_URL", "BRANDING"];
 
 /**
  * Create a `TrustificationEnv` from a partial `TrustificationEnv` with a set of default values.

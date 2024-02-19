@@ -1,9 +1,13 @@
-import * as React from 'react';
+import * as React from "react";
 
-type StorageType = 'localStorage' | 'sessionStorage';
+type StorageType = "localStorage" | "sessionStorage";
 
-const getValueFromStorage = <T>(storageType: StorageType, key: string, defaultValue: T): T => {
-  if (typeof window === 'undefined') return defaultValue;
+const getValueFromStorage = <T>(
+  storageType: StorageType,
+  key: string,
+  defaultValue: T
+): T => {
+  if (typeof window === "undefined") return defaultValue;
   try {
     const itemJSON = window[storageType].getItem(key);
     return itemJSON ? (JSON.parse(itemJSON) as T) : defaultValue;
@@ -13,21 +17,29 @@ const getValueFromStorage = <T>(storageType: StorageType, key: string, defaultVa
   }
 };
 
-const setValueInStorage = <T>(storageType: StorageType, key: string, newValue: T | undefined) => {
-  if (typeof window === 'undefined') return;
+const setValueInStorage = <T>(
+  storageType: StorageType,
+  key: string,
+  newValue: T | undefined
+) => {
+  if (typeof window === "undefined") return;
   try {
     if (newValue !== undefined) {
       const newValueJSON = JSON.stringify(newValue);
       window[storageType].setItem(key, newValueJSON);
-      if (storageType === 'localStorage') {
+      if (storageType === "localStorage") {
         // setItem only causes the StorageEvent to be dispatched in other windows. We dispatch it here
         // manually so that all instances of useLocalStorage on this window also react to this change.
-        window.dispatchEvent(new StorageEvent('storage', { key, newValue: newValueJSON }));
+        window.dispatchEvent(
+          new StorageEvent("storage", { key, newValue: newValueJSON })
+        );
       }
     } else {
       window[storageType].removeItem(key);
-      if (storageType === 'localStorage') {
-        window.dispatchEvent(new StorageEvent('storage', { key, newValue: null }));
+      if (storageType === "localStorage") {
+        window.dispatchEvent(
+          new StorageEvent("storage", { key, newValue: null })
+        );
       }
     }
   } catch (error) {
@@ -52,7 +64,8 @@ const useStorage = <T>({
     getValueFromStorage(type, key, defaultValue)
   );
 
-  const usingStorageEvents = type === 'localStorage' && typeof window !== 'undefined' && isEnabled;
+  const usingStorageEvents =
+    type === "localStorage" && typeof window !== "undefined" && isEnabled;
 
   const setValue: React.Dispatch<React.SetStateAction<T>> = React.useCallback(
     (newValueOrFn: T | ((prevState: T) => T)) => {
@@ -73,25 +86,28 @@ const useStorage = <T>({
     if (!usingStorageEvents) return;
     const onStorageUpdated = (event: StorageEvent) => {
       if (event.key === key) {
-        setCachedValue(event.newValue ? JSON.parse(event.newValue) : defaultValue);
+        setCachedValue(
+          event.newValue ? JSON.parse(event.newValue) : defaultValue
+        );
       }
     };
-    window.addEventListener('storage', onStorageUpdated);
+    window.addEventListener("storage", onStorageUpdated);
     return () => {
-      window.removeEventListener('storage', onStorageUpdated);
+      window.removeEventListener("storage", onStorageUpdated);
     };
   }, [key, defaultValue, usingStorageEvents]);
 
   return [cachedValue, setValue];
 };
 
-export type UseStorageTypeOptions<T> = Omit<IUseStorageOptions<T>, 'type'>;
+export type UseStorageTypeOptions<T> = Omit<IUseStorageOptions<T>, "type">;
 
 export const useLocalStorage = <T>(
   options: UseStorageTypeOptions<T>
-): [T, React.Dispatch<React.SetStateAction<T>>] => useStorage({ ...options, type: 'localStorage' });
+): [T, React.Dispatch<React.SetStateAction<T>>] =>
+  useStorage({ ...options, type: "localStorage" });
 
 export const useSessionStorage = <T>(
   options: UseStorageTypeOptions<T>
 ): [T, React.Dispatch<React.SetStateAction<T>>] =>
-  useStorage({ ...options, type: 'sessionStorage' });
+  useStorage({ ...options, type: "sessionStorage" });
