@@ -1,6 +1,7 @@
 import React from "react";
 
 import {
+  ConditionalTableBody,
   FilterType,
   useTablePropHelpers,
   useTableState,
@@ -8,8 +9,13 @@ import {
 
 import { getHubRequestParams } from "@app/hooks/table-controls";
 
-import { TablePersistenceKeyPrefixes } from "@app/Constants";
+import {
+  RENDER_DATE_FORMAT,
+  TablePersistenceKeyPrefixes,
+} from "@app/Constants";
 import { useFetchSboms } from "@app/queries/sboms";
+import { NavLink } from "react-router-dom";
+import dayjs from "dayjs";
 
 export const useSbomList = () => {
   const tableState = useTableState({
@@ -94,10 +100,75 @@ export const useSbomList = () => {
     totalItemCount: result.total,
   });
 
+  const {
+    currentPageItems,
+    numRenderedColumns,
+    components: { Table, Thead, Tr, Th, Tbody, Td, Pagination },
+    expansion: { isCellExpanded },
+  } = tableProps;
+
+  const table = (
+    <>
+      <Table aria-label="Sboms details table">
+        <Thead>
+          <Tr isHeaderRow>
+            <Th columnKey="name" />
+            <Th columnKey="version" />
+            <Th columnKey="supplier" />
+            <Th columnKey="createdOn" />
+            <Th columnKey="dependencies" />
+            <Th columnKey="productAdvisories" />
+            <Th columnKey="download" />
+          </Tr>
+        </Thead>
+        <ConditionalTableBody
+          isLoading={isFetching}
+          isError={!!fetchError}
+          isNoData={result.total === 0}
+          numRenderedColumns={numRenderedColumns}
+        >
+          <Tbody>
+            {currentPageItems?.map((item, rowIndex) => {
+              return (
+                <Tr key={item.id} item={item} rowIndex={rowIndex}>
+                  <Td width={20} columnKey="name">
+                    <NavLink to={`/sboms/${item.id}`}>{item.name}</NavLink>
+                  </Td>
+                  <Td width={15} modifier="truncate" columnKey="version">
+                    {item.version}
+                  </Td>
+                  <Td width={20} columnKey="supplier">
+                    {item.supplier}
+                  </Td>
+                  <Td width={15} modifier="truncate" columnKey="createdOn">
+                    {dayjs(item.created as any).format(RENDER_DATE_FORMAT)}
+                  </Td>
+                  <Td width={10} columnKey="dependencies">
+                    {item.dependencies}
+                  </Td>
+                  <Td width={10} columnKey="productAdvisories">
+                    {item.advisories}
+                  </Td>
+                  <Td width={10} columnKey="download"></Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </ConditionalTableBody>
+      </Table>
+      <Pagination
+        variant="bottom"
+        isCompact
+        widgetId="sboms-pagination-bottom"
+      />
+    </>
+  );
+
   return {
     tableProps,
     isFetching,
     fetchError,
     total: result.total,
+    table,
   };
 };
