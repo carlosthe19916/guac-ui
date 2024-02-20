@@ -4,7 +4,7 @@ import {
   FilterCategory,
   FilterState,
   getFilterLogicOperator,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 
 /**
  * Helper function for getFilterHubRequestParams

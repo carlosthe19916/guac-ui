@@ -7,7 +7,7 @@ import { Td as PFTd } from "@patternfly/react-table";
 import {
   ConditionalTableBody,
   useClientTableBatteries,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 
 import { SbomIndexed } from "@app/api/models";
 import { useFetchPackageRelatedProducts } from "@app/queries/packages";

@@ -7,7 +7,7 @@ import { Td as PFTd } from "@patternfly/react-table";
 import {
   ConditionalTableBody,
   useClientTableBatteries,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 
 import { RENDER_DATE_FORMAT } from "@app/Constants";
 import { CveIndexed } from "@app/api/models";

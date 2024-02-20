@@ -29,7 +29,7 @@ import {
   ConditionalTableBody,
   FilterType,
   useClientTableBatteries,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 import { Remediations } from "./remediations";
 
 interface VulnerabilitiesProps {

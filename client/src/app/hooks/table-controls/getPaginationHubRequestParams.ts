@@ -1,5 +1,5 @@
 import { HubRequestParams } from "@app/api/models";
-import { PaginationState } from "@mturley-latest/react-table-batteries";
+import { PaginationState } from "@carlosthe19916-latest/react-table-batteries";
 
 /**
  * Args for getPaginationHubRequestParams

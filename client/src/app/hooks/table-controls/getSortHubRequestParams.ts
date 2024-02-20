@@ -1,5 +1,5 @@
 import { HubRequestParams } from "@app/api/models";
-import { SortState } from "@mturley-latest/react-table-batteries";
+import { SortState } from "@carlosthe19916-latest/react-table-batteries";
 
 /**
  * Args for getSortHubRequestParams

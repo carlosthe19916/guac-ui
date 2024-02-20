@@ -14,7 +14,7 @@ import {
   FilterType,
   useTablePropHelpers,
   useTableState,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 
 import DownloadIcon from "@patternfly/react-icons/dist/esm/icons/download-icon";
 

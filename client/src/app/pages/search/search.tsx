@@ -23,7 +23,7 @@ import {
 } from "@patternfly/react-core";
 import { useDebounceValue } from "usehooks-ts";
 
-import { FilterType } from "@mturley-latest/react-table-batteries";
+import { FilterType } from "@carlosthe19916-latest/react-table-batteries";
 
 import { useAdvisoryList } from "../advisory-list/useAdvisoryList";
 import { useCveList } from "../cve-list/useCveList";

@@ -7,7 +7,7 @@ import {
   FilterType,
   useTablePropHelpers,
   useTableState,
-} from "@mturley-latest/react-table-batteries";
+} from "@carlosthe19916-latest/react-table-batteries";
 
 import dayjs from "dayjs";
 import { PackageURL } from "packageurl-js";
