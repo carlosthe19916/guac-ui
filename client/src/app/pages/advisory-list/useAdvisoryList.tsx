@@ -19,18 +19,18 @@ import {
 import DownloadIcon from "@patternfly/react-icons/dist/esm/icons/download-icon";
 
 import { RHSeverityShield } from "@app/components/csaf/rh-severity";
-import { getHubRequestParams } from "@app/hooks/table-controls";
 import { useDownload } from "@app/hooks/csaf/download-advisory";
+import { getHubRequestParams } from "@app/hooks/table-controls";
 
-import { useFetchAdvisories } from "@app/queries/advisories";
 import {
   FILTER_DATE_FORMAT,
   TablePersistenceKeyPrefixes,
 } from "@app/Constants";
+import { useFetchAdvisories } from "@app/queries/advisories";
 import { formatRustDate } from "@app/utils/utils";
 
-import { VulnerabilitiesCount } from "./vulnerabilities";
 import { AdvisoryDetails } from "./advisory-details";
+import { VulnerabilitiesCount } from "./vulnerabilities";
 
 export const useAdvisoryList = () => {
   const tableState = useTableState({

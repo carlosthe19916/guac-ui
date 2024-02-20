@@ -28,10 +28,18 @@ import CheckIcon from "@patternfly/react-icons/dist/esm/icons/check-icon";
 import ShieldIcon from "@patternfly/react-icons/dist/esm/icons/shield-alt-icon";
 import BugIcon from "@patternfly/react-icons/dist/esm/icons/bug-icon";
 import HandIcon from "@patternfly/react-icons/dist/esm/icons/hand-holding-icon";
+import { useNavigate } from "react-router-dom";
 
 const TEXT_WIDTH = 192;
 
 export const Home: React.FC = () => {
+  const [filterText, setFilterText] = React.useState("");
+  const navigate = useNavigate();
+
+  const redirectToSearch = () => {
+    navigate("/search?filtertext=" + encodeURIComponent(filterText));
+  };
+
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>
@@ -62,14 +70,26 @@ export const Home: React.FC = () => {
                         <SplitItem>
                           <SearchInput
                             placeholder="Search for an SBOM, Advisory, or CVE"
-                            // value={value}
-                            // onChange={(_event, value) => onChange(value)}
-                            // onClear={() => onChange("")}
+                            value={filterText}
+                            onChange={(_event, value) => setFilterText(value)}
+                            onClear={() => setFilterText("")}
                             style={{ width: 400 }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                redirectToSearch();
+                              }
+                            }}
                           />
                         </SplitItem>
                         <SplitItem>
-                          <Button variant="primary">Search</Button>
+                          <Button
+                            variant="primary"
+                            onClick={() => {
+                              redirectToSearch();
+                            }}
+                          >
+                            Search
+                          </Button>
                         </SplitItem>
                       </Split>
                     </Bullseye>

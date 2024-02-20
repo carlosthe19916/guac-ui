@@ -29,6 +29,7 @@ import { useAdvisoryList } from "../advisory-list/useAdvisoryList";
 import { useCveList } from "../cve-list/useCveList";
 import { usePackageList } from "../package-list/usePackageList";
 import { useSbomList } from "../sbom-list/useSbomList";
+import { useSearchParams } from "react-router-dom";
 
 enum TabIndex {
   CVEs,
@@ -38,7 +39,12 @@ enum TabIndex {
 }
 
 export const Search: React.FC = () => {
-  const [filterText, setFilterText] = useDebounceValue("", 500);
+  const [searchParams] = useSearchParams();
+
+  const [filterText, setFilterText] = useDebounceValue(
+    searchParams.get("filtertext") || "",
+    500
+  );
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(
     TabIndex.CVEs
   );
@@ -129,26 +135,22 @@ export const Search: React.FC = () => {
   useEffect(() => {
     filterCves.setFilterValues({
       ...filter.filterValues,
-      filterText,
+      filterText: [filterText],
     });
     filterPackages.setFilterValues({
       ...filter.filterValues,
-      filterText,
+      filterText: [filterText],
     });
     filterSboms.setFilterValues({
       ...filter.filterValues,
-      filterText,
+      filterText: [filterText],
     });
     filterAdvisories.setFilterValues({
       ...filter.filterValues,
-      filterText,
+      filterText: [filterText],
     });
   }, [filterText]);
 
-  useEffect(() => {
-    console.log(filterCves);
-  }, [filterCves]);
-  
   return (
     <>
       <PageSection variant="light">
