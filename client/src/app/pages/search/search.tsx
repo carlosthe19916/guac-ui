@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Badge,
@@ -21,6 +21,7 @@ import {
   TextContent,
   ToolbarContent,
 } from "@patternfly/react-core";
+import { useDebounceValue } from "usehooks-ts";
 
 import { FilterType } from "@mturley-latest/react-table-batteries";
 
@@ -37,7 +38,7 @@ enum TabIndex {
 }
 
 export const Search: React.FC = () => {
-  const [filterText, setFilterText] = React.useState("");
+  const [filterText, setFilterText] = useDebounceValue("", 500);
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(
     TabIndex.CVEs
   );
@@ -125,6 +126,29 @@ export const Search: React.FC = () => {
       break;
   }
 
+  useEffect(() => {
+    filterCves.setFilterValues({
+      ...filter.filterValues,
+      filterText,
+    });
+    filterPackages.setFilterValues({
+      ...filter.filterValues,
+      filterText,
+    });
+    filterSboms.setFilterValues({
+      ...filter.filterValues,
+      filterText,
+    });
+    filterAdvisories.setFilterValues({
+      ...filter.filterValues,
+      filterText,
+    });
+  }, [filterText]);
+
+  useEffect(() => {
+    console.log(filterCves);
+  }, [filterCves]);
+  
   return (
     <>
       <PageSection variant="light">
@@ -137,7 +161,9 @@ export const Search: React.FC = () => {
           <SplitItem>
             <SearchInput
               value={filterText}
-              onChange={(_, val) => setFilterText(val)}
+              onChange={(_, val) => {
+                setFilterText(val);
+              }}
               style={{ width: 600 }}
             />
           </SplitItem>
