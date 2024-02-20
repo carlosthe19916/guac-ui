@@ -62,7 +62,7 @@ export const AboutApp: React.FC<IButtonAboutAppProps> = ({
       <TextContent className="pf-v5-u-py-xl">
         <TextContent>
           <TextList component="dl">
-            <TextListItem component="dt">Versión</TextListItem>
+            <TextListItem component="dt">Version</TextListItem>
             <TextListItem component="dd">{ENV.VERSION}</TextListItem>
           </TextList>
         </TextContent>
