@@ -23,17 +23,18 @@ import { getHubRequestParams } from "@app/hooks/table-controls";
 import { useDownload } from "@app/hooks/csaf/download-advisory";
 
 import { useFetchAdvisories } from "@app/queries/advisories";
-import { TablePersistenceKeyPrefixes } from "@app/Constants";
+import {
+  FILTER_DATE_FORMAT,
+  TablePersistenceKeyPrefixes,
+} from "@app/Constants";
 import { formatRustDate } from "@app/utils/utils";
 
 import { VulnerabilitiesCount } from "./vulnerabilities";
 import { AdvisoryDetails } from "./advisory-details";
 
-const DATE_FORMAT = "YYYY-MM-DD";
-
 export const useAdvisoryList = () => {
   const tableState = useTableState({
-    persistTo: "sessionStorage",
+    persistTo: "state",
     persistenceKeyPrefix: TablePersistenceKeyPrefixes.advisories,
     columnNames: {
       id: "ID",
@@ -99,15 +100,15 @@ export const useAdvisoryList = () => {
           type: FilterType.select,
           selectOptions: [
             {
-              key: `${dayjs().subtract(7, "day").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
+              key: `${dayjs().subtract(7, "day").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
               value: "Last 7 days",
             },
             {
-              key: `${dayjs().subtract(30, "day").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
+              key: `${dayjs().subtract(30, "day").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
               value: "Last 30 days",
             },
             {
-              key: `${dayjs().startOf("year").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
+              key: `${dayjs().startOf("year").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
               value: "This year",
             },
             ...[...Array(3)].map((_, index) => {
@@ -115,7 +116,7 @@ export const useAdvisoryList = () => {
                 .startOf("year")
                 .subtract(index + 1, "year");
               return {
-                key: `${date.format(DATE_FORMAT)}..${date.endOf("year").format(DATE_FORMAT)}`,
+                key: `${date.format(FILTER_DATE_FORMAT)}..${date.endOf("year").format(FILTER_DATE_FORMAT)}`,
                 value: date.year(),
               };
             }),
@@ -131,7 +132,6 @@ export const useAdvisoryList = () => {
     expansion: {
       isEnabled: true,
       variant: "single",
-      persistTo: "sessionStorage",
     },
   });
 
@@ -140,6 +140,9 @@ export const useAdvisoryList = () => {
     return getHubRequestParams({
       ...tableState,
       filterCategories: filter.filterCategories,
+      hubSortFieldKeys: {
+        severity: "severity",
+      },
     });
   }, [cacheKey]);
 

@@ -1,6 +1,6 @@
+import { Label } from "@patternfly/react-core";
 import React, { useMemo } from "react";
 import { NavLink } from "react-router-dom";
-import { Label } from "@patternfly/react-core";
 
 import {
   ConditionalTableBody,
@@ -9,19 +9,18 @@ import {
   useTableState,
 } from "@carlosthe19916-latest/react-table-batteries";
 
-import dayjs from "dayjs";
 import { PackageURL } from "packageurl-js";
 
 import { getHubRequestParams } from "@app/hooks/table-controls";
 
-import { TablePersistenceKeyPrefixes } from "@app/Constants";
+import {
+  TablePersistenceKeyPrefixes
+} from "@app/Constants";
 import { useFetchPackages } from "@app/queries/packages";
-
-const DATE_FORMAT = "YYYY-MM-DD";
 
 export const usePackageList = () => {
   const tableState = useTableState({
-    persistTo: "sessionStorage",
+    persistTo: "state",
     persistenceKeyPrefix: TablePersistenceKeyPrefixes.sboms,
     columnNames: {
       name: "Name",
@@ -42,69 +41,41 @@ export const usePackageList = () => {
           type: FilterType.search,
         },
         {
-          key: "pkg",
-          title: "Products",
-          placeholderText: "Products",
+          key: "type",
+          title: "Type",
+          placeholderText: "Type",
           type: FilterType.multiselect,
           selectOptions: [
-            { key: "oci/ubi7", value: "UBI 7" },
-            { key: "oci/ubi8", value: "UBI 8" },
-            { key: "oci/ubi9", value: "UBI 9" },
-            {
-              key: "/o:redhat:enterprise_linux:7",
-              value: "Red Hat Enterprise Linux 7",
-            },
-            { key: "rejected", value: "Red Hat Enterprise Linux 8" },
-            { key: "rejected", value: "Red Hat Enterprise Linux 9" },
+            { key: "maven", value: "Maven" },
+            { key: "rpm", value: "RPM" },
+            { key: "npm", value: "NPM" },
+            { key: "oci", value: "OCI" },
           ],
         },
         {
-          key: "severity",
-          title: "CVSS",
-          placeholderText: "CVSS",
+          key: "qualifier:arch",
+          title: "Architecture",
+          placeholderText: "Architecture",
           type: FilterType.multiselect,
           selectOptions: [
-            { key: "low", value: "Low" },
-            { key: "moderate", value: "Moderate" },
-            { key: "important", value: "Important" },
-            { key: "critical", value: "Critical" },
+            { key: "x86_64", value: "AMD 64Bit" },
+            { key: "aarch64", value: "ARM 64bit" },
+            { key: "ppc64le", value: "PowerPC" },
+            { key: "s390x", value: "S390" },
           ],
         },
         {
-          key: "datePublished",
-          title: "Revision",
-          placeholderText: "Revision",
-          type: FilterType.select,
-          selectOptions: [
-            {
-              key: `${dayjs().subtract(7, "day").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
-              value: "Last 7 days",
-            },
-            {
-              key: `${dayjs().subtract(30, "day").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
-              value: "Last 30 days",
-            },
-            {
-              key: `${dayjs().startOf("year").format(DATE_FORMAT)}..${dayjs().format(DATE_FORMAT)}`,
-              value: "This year",
-            },
-            ...[...Array(3)].map((_, index) => {
-              const date = dayjs()
-                .startOf("year")
-                .subtract(index + 1, "year");
-              return {
-                key: `${date.format(DATE_FORMAT)}..${date.endOf("year").format(DATE_FORMAT)}`,
-                value: date.year(),
-              };
-            }),
-          ],
+          key: "supplier",
+          title: "Supplier",
+          placeholderText: "Supplier",
+          type: FilterType.multiselect,
+          selectOptions: [{ key: "Organization: Red Hat", value: "Red Hat" }],
         },
       ],
     },
     sort: {
       isEnabled: true,
       sortableColumns: [],
-      persistTo: "state",
     },
     pagination: { isEnabled: true },
   });

@@ -1,5 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
+import dayjs from "dayjs";
+
+import { Button } from "@patternfly/react-core";
+import DownloadIcon from "@patternfly/react-icons/dist/esm/icons/download-icon";
 import {
   ConditionalTableBody,
   FilterType,
@@ -10,16 +15,16 @@ import {
 import { getHubRequestParams } from "@app/hooks/table-controls";
 
 import {
+  FILTER_DATE_FORMAT,
   RENDER_DATE_FORMAT,
   TablePersistenceKeyPrefixes,
 } from "@app/Constants";
 import { useFetchSboms } from "@app/queries/sboms";
-import { NavLink } from "react-router-dom";
-import dayjs from "dayjs";
+import { useDownload } from "@app/hooks/csaf/download-advisory";
 
 export const useSbomList = () => {
   const tableState = useTableState({
-    persistTo: "sessionStorage",
+    persistTo: "state",
     persistenceKeyPrefix: TablePersistenceKeyPrefixes.packages,
     columnNames: {
       name: "Name",
@@ -40,41 +45,56 @@ export const useSbomList = () => {
           placeholderText: "Search",
           type: FilterType.search,
         },
+        // {
+        //   key: "pkg",
+        //   title: "Product",
+        //   type: FilterType.multiselect,
+        //   placeholderText: "Product",
+        //   selectOptions: [
+        //     { key: "oci/ubi8", value: "UBI 8" },
+        //     { key: "oci/ubi9", value: "UBI 9" },
+        //   ],
+        // },
         {
-          key: "pkg",
-          title: "Products",
-          placeholderText: "Products",
+          key: "supplier",
+          title: "Supplier",
           type: FilterType.multiselect,
-          selectOptions: [
-            { key: "oci/ubi7", value: "UBI 7" },
-            { key: "oci/ubi8", value: "UBI 8" },
-            { key: "oci/ubi9", value: "UBI 9" },
-            {
-              key: "/o:redhat:enterprise_linux:7",
-              value: "Red Hat Enterprise Linux 7",
-            },
-            { key: "rejected", value: "Red Hat Enterprise Linux 8" },
-            { key: "rejected", value: "Red Hat Enterprise Linux 9" },
-          ],
+          placeholderText: "Supplier",
+          selectOptions: [{ key: "Organization: Red Hat", value: "Red Hat" }],
         },
         {
-          key: "severity",
-          title: "CVSS",
-          placeholderText: "CVSS",
-          type: FilterType.multiselect,
+          key: "created",
+          title: "Created on",
+          type: FilterType.select,
           selectOptions: [
-            { key: "low", value: "Low" },
-            { key: "moderate", value: "Moderate" },
-            { key: "important", value: "Important" },
-            { key: "critical", value: "Critical" },
+            {
+              key: `${dayjs().subtract(7, "day").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
+              value: "Last 7 days",
+            },
+            {
+              key: `${dayjs().subtract(30, "day").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
+              value: "Last 30 days",
+            },
+            {
+              key: `${dayjs().startOf("year").format(FILTER_DATE_FORMAT)}..${dayjs().format(FILTER_DATE_FORMAT)}`,
+              value: "This year",
+            },
+            ...[...Array(3)].map((_, index) => {
+              const date = dayjs()
+                .startOf("year")
+                .subtract(index + 1, "year");
+              return {
+                key: `${date.format(FILTER_DATE_FORMAT)}..${date.endOf("year").format(FILTER_DATE_FORMAT)}`,
+                value: date.year(),
+              };
+            }),
           ],
         },
       ],
     },
     sort: {
       isEnabled: true,
-      sortableColumns: [],
-      persistTo: "state",
+      sortableColumns: ["createdOn"],
     },
     pagination: { isEnabled: true },
   });
@@ -85,7 +105,7 @@ export const useSbomList = () => {
       ...tableState,
       filterCategories: filter.filterCategories,
       hubSortFieldKeys: {
-        created: "created",
+        createdOn: "created",
       },
     });
   }, [cacheKey]);
@@ -106,6 +126,8 @@ export const useSbomList = () => {
     components: { Table, Thead, Tr, Th, Tbody, Td, Pagination },
     expansion: { isCellExpanded },
   } = tableProps;
+
+  const { downloadSbom } = useDownload();
 
   const table = (
     <>
@@ -149,7 +171,17 @@ export const useSbomList = () => {
                   <Td width={10} columnKey="productAdvisories">
                     {item.advisories}
                   </Td>
-                  <Td width={10} columnKey="download"></Td>
+                  <Td width={10} columnKey="download">
+                    <Button
+                      variant="plain"
+                      aria-label="Download"
+                      onClick={() => {
+                        downloadSbom(item.id);
+                      }}
+                    >
+                      <DownloadIcon />
+                    </Button>
+                  </Td>
                 </Tr>
               );
             })}

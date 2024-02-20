@@ -62,6 +62,9 @@ export const serializeRequestParamsForHub = (
       `${serializedParams.get("q")} (${serializedParams.get("sort")})`
     );
     serializedParams.delete("sort");
+  } else if (serializedParams.has("sort")) {
+    serializedParams.set("q", `(${serializedParams.get("sort")})`);
+    serializedParams.delete("sort");
   }
 
   return serializedParams;

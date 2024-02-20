@@ -1,6 +1,7 @@
 import ENV from "./env";
 
 export const RENDER_DATE_FORMAT = "MMM DD, YYYY";
+export const FILTER_DATE_FORMAT = "YYYY-MM-DD";
 
 export const TablePersistenceKeyPrefixes = {
   advisories: "ad",
