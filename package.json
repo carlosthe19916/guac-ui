@@ -36,6 +36,12 @@
     "node": ">=18.14.2",
     "npm": ">=9.5.0"
   },
+  "resolutions": {
+    "victory-core": "<36.9.0"
+  },
+  "overrides": {
+    "victory-core": "<36.9.0"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
