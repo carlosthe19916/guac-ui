@@ -7,17 +7,6 @@ if [[ -z "$GUAC_API_URL" ]]; then
   exit 1
 fi
 
-if [[ $AUTH_REQUIRED != "false" ]]; then
-  if [[ -z "$OIDC_CLIENT_ID" ]]; then
-    echo "You must provide OIDC_CLIENT_ID environment variable" 1>&2
-    exit 1
-  fi
-  if [[ -z "$OIDC_SERVER_URL" ]]; then
-    echo "You must provide OIDC_SERVER_URL environment variable" 1>&2
-    exit 1
-  fi
-fi
-
 # Copy the Kube API and service CA bundle to /opt/app-root/src/ca.crt if they exist
 
 # Add Kube API CA

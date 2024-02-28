@@ -16,7 +16,6 @@ export enum TableURLParamKeyPrefix {
   tags = "t",
 }
 
-export const isAuthRequired = ENV.AUTH_REQUIRED !== "false";
 export const uploadLimit = "500m";
 
 /**

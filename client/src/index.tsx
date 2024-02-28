@@ -15,8 +15,6 @@ import timezone from "dayjs/plugin/timezone";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import arraySupport from "dayjs/plugin/arraySupport";
 
-import { OidcProvider } from "@app/components/OidcProvider";
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
@@ -32,12 +30,10 @@ const root = ReactDOM.createRoot(
 const renderApp = () => {
   return root.render(
     <React.StrictMode>
-      <OidcProvider>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </OidcProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </React.StrictMode>
   );
 };

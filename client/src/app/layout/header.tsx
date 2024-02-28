@@ -1,9 +1,7 @@
 import React, { useReducer, useState } from "react";
-import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Avatar,
   Brand,
   Button,
   ButtonVariant,
@@ -22,27 +20,23 @@ import {
   Toolbar,
   ToolbarContent,
   ToolbarGroup,
-  ToolbarItem,
+  ToolbarItem
 } from "@patternfly/react-core";
 
-import BarsIcon from "@patternfly/react-icons/dist/js/icons/bars-icon";
-import QuestionCircleIcon from "@patternfly/react-icons/dist/esm/icons/question-circle-icon";
 import EllipsisVIcon from "@patternfly/react-icons/dist/esm/icons/ellipsis-v-icon";
 import HelpIcon from "@patternfly/react-icons/dist/esm/icons/help-icon";
+import QuestionCircleIcon from "@patternfly/react-icons/dist/esm/icons/question-circle-icon";
+import BarsIcon from "@patternfly/react-icons/dist/js/icons/bars-icon";
 
 import { useLocalStorage } from "@app/hooks/useStorage";
-import { isAuthRequired } from "@app/Constants";
 
-import { AboutApp } from "./about";
-import imgAvatar from "../images/avatar.svg";
 import useBranding from "@app/hooks/useBranding";
+import { AboutApp } from "./about";
 
 export const HeaderApp: React.FC = () => {
   const {
     masthead: { leftBrand, leftTitle, rightBrand },
   } = useBranding();
-
-  const auth = (isAuthRequired && useAuth()) || undefined;
 
   const navigate = useNavigate();
 
@@ -149,50 +143,6 @@ export const HeaderApp: React.FC = () => {
                     <DropdownList>{kebabDropdownItems}</DropdownList>
                   </Dropdown>
                 </ToolbarItem>
-                {auth && (
-                  <ToolbarItem
-                    visibility={{ default: "hidden", md: "visible" }}
-                  >
-                    <Dropdown
-                      isOpen={isUserDropdownOpen}
-                      onSelect={() => setIsUserDropdownOpen(false)}
-                      onOpenChange={(isOpen: boolean) =>
-                        setIsUserDropdownOpen(isOpen)
-                      }
-                      popperProps={{ position: "right" }}
-                      toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
-                        <MenuToggle
-                          ref={toggleRef}
-                          onClick={() =>
-                            setIsUserDropdownOpen(!isUserDropdownOpen)
-                          }
-                          isFullHeight
-                          isExpanded={isUserDropdownOpen}
-                          icon={<Avatar src={imgAvatar} alt="" />}
-                        >
-                          {auth.user?.profile.preferred_username}
-                        </MenuToggle>
-                      )}
-                    >
-                      <DropdownList>
-                        <DropdownItem
-                          key="logout"
-                          onClick={() => {
-                            auth
-                              .signoutRedirect()
-                              .then(() => {})
-                              .catch((err) => {
-                                console.error("Logout failed:", err);
-                                navigate("/");
-                              });
-                          }}
-                        >
-                          Logout
-                        </DropdownItem>
-                      </DropdownList>
-                    </Dropdown>
-                  </ToolbarItem>
-                )}
               </ToolbarGroup>
             </ToolbarContent>
           </Toolbar>
