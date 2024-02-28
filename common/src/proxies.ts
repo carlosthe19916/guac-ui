@@ -1,10 +1,10 @@
 import type { Options } from "http-proxy-middleware";
-import { TRUSTIFICATION_ENV } from "./environment.js";
+import { GUAC_ENV } from "./environment.js";
 
 export const proxyMap: Record<string, Options> = {
   "/hub": {
     target:
-      TRUSTIFICATION_ENV.TRUSTIFICATION_HUB_URL || "http://localhost:8083",
+      GUAC_ENV.GUAC_HUB_URL || "http://localhost:8083",
     logLevel: process.env.DEBUG ? "debug" : "info",
 
     changeOrigin: true,

@@ -10,12 +10,12 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
 import {
   encodeEnv,
-  TRUSTIFICATION_ENV,
+  GUAC_ENV,
   SERVER_ENV_KEYS,
   proxyMap,
   brandingStrings,
   brandingAssetPath,
-} from "@trustification-ui/common";
+} from "@guac-ui/common";
 import { stylePaths } from "./stylePaths";
 import commonWebpackConfiguration from "./webpack.common";
 
@@ -99,7 +99,7 @@ const config: Configuration = mergeWithRules({
       filename: "index.html",
       template: pathTo("../public/index.html.ejs"),
       templateParameters: {
-        _env: encodeEnv(TRUSTIFICATION_ENV, SERVER_ENV_KEYS),
+        _env: encodeEnv(GUAC_ENV, SERVER_ENV_KEYS),
         branding: brandingStrings,
       },
       favicon: faviconPath,
@@ -114,8 +114,8 @@ const config: Configuration = mergeWithRules({
   ],
 
   watchOptions: {
-    // ignore watching everything except @trustification-ui packages
-    ignored: /node_modules\/(?!@trustification-ui\/)/,
+    // ignore watching everything except @guac-ui packages
+    ignored: /node_modules\/(?!@guac-ui\/)/,
   },
 } as Configuration);
 export default config;

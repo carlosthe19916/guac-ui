@@ -1,15 +1,15 @@
-/** Define process.env to contain `TrustificationEnvType` */
+/** Define process.env to contain `GuacEnvType` */
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
-    interface ProcessEnv extends Partial<Readonly<TrustificationEnvType>> {}
+    interface ProcessEnv extends Partial<Readonly<GuacEnvType>> {}
   }
 }
 
 /**
- * The set of environment variables used by `@trustification-ui` packages.
+ * The set of environment variables used by `@guac-ui` packages.
  */
-export type TrustificationEnvType = {
+export type GuacEnvType = {
   NODE_ENV: "development" | "production" | "test";
   VERSION: string;
 
@@ -32,22 +32,22 @@ export type TrustificationEnvType = {
   OIDC_SERVER_URL?: string;
 
   /** Target URL for the UI server's `/hub` proxy */
-  TRUSTIFICATION_HUB_URL?: string;
+  GUAC_HUB_URL?: string;
 
   /** Location of branding files (relative paths computed from the project source root) */
   BRANDING?: string;
 };
 
 /**
- * Keys in `TrustificationEnv` that are only used on the server and therefore do not
+ * Keys in `GuacEnv` that are only used on the server and therefore do not
  * need to be sent to the client.
  */
-export const SERVER_ENV_KEYS = ["PORT", "TRUSTIFICATION_HUB_URL", "BRANDING"];
+export const SERVER_ENV_KEYS = ["PORT", "GUAC_HUB_URL", "BRANDING"];
 
 /**
- * Create a `TrustificationEnv` from a partial `TrustificationEnv` with a set of default values.
+ * Create a `GuacEnv` from a partial `GuacEnv` with a set of default values.
  */
-export const buildTrustificationEnv = ({
+export const buildGuacEnv = ({
   NODE_ENV = "production",
   PORT,
   VERSION = "99.0.0",
@@ -58,9 +58,9 @@ export const buildTrustificationEnv = ({
   OIDC_CLIENT_ID = "frontend",
 
   UI_INGRESS_PROXY_BODY_SIZE = "500m",
-  TRUSTIFICATION_HUB_URL,
+  GUAC_HUB_URL,
   BRANDING,
-}: Partial<TrustificationEnvType> = {}): TrustificationEnvType => ({
+}: Partial<GuacEnvType> = {}): GuacEnvType => ({
   NODE_ENV,
   PORT,
   VERSION,
@@ -71,16 +71,16 @@ export const buildTrustificationEnv = ({
   OIDC_CLIENT_ID,
 
   UI_INGRESS_PROXY_BODY_SIZE,
-  TRUSTIFICATION_HUB_URL,
+  GUAC_HUB_URL,
   BRANDING,
 });
 
 /**
- * Default values for `TrustificationEnvType`.
+ * Default values for `GuacEnvType`.
  */
-export const TRUSTIFICATION_ENV_DEFAULTS = buildTrustificationEnv();
+export const GUAC_ENV_DEFAULTS = buildGuacEnv();
 
 /**
- * Current `@trustification-ui` environment configurations from `process.env`.
+ * Current `@guac-ui` environment configurations from `process.env`.
  */
-export const TRUSTIFICATION_ENV = buildTrustificationEnv(process.env);
+export const GUAC_ENV = buildGuacEnv(process.env);

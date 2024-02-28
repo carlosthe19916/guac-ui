@@ -40,10 +40,15 @@ export const AboutApp: React.FC<IButtonAboutAppProps> = ({
     >
       <TextContent>
         <Text component={TextVariants.p}>
-          {about.displayName} is vendor-neutral, thought-leadering, mostly
-          informational collection of resources devoted to making Software
-          Supply Chains easier to create, manage, consume and ultimately… to
-          trust!
+          {about.displayName} gives you directed, actionable insights into the
+          security of your software supply chain.
+        </Text>
+        <Text component={TextVariants.p}>
+          {about.displayName} aims to fill in the gaps by ingesting software
+          metadata, like SBOMs, and mapping out relationships between software.
+          When you know how one piece of software affects another, you’ll be
+          able to fully understand your software security position and act as
+          needed.
         </Text>
 
         {about.documentationUrl ? (

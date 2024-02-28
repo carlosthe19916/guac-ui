@@ -1,6 +1,6 @@
 {
-  "short_name": "trustification-ui",
-  "name": "Trustification UI",
+  "short_name": "guac-ui",
+  "name": "GUAC UI",
   "icons": [
     {
       "src": "favicon.ico",

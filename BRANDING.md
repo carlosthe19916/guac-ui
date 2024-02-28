@@ -7,11 +7,11 @@ possible with the current implementation.
 
 Each of the project modules need to do some branding enablement.
 
-- `@trustification-ui/common` pulls in the branding assets and packages the configuration,
+- `@guac-ui/common` pulls in the branding assets and packages the configuration,
   strings and assets within the common package. The other modules pull branding
   from the common module.
 
-- `@trustification-ui/client` uses branding from the common package:
+- `@guac-ui/client` uses branding from the common package:
 
   - The location of `favicon.ico`, `manifest.json` and any other branding
     assets that may be referenced in the `brandingStrings` are sourced from the
@@ -25,7 +25,7 @@ Each of the project modules need to do some branding enablement.
     about information. Since the common module provides all the information, it
     is packaged directly into the app at build time.
 
-- `@trustification-ui/server` uses the `brandingStrings` from the common package to fill
+- `@guac-ui/server` uses the `brandingStrings` from the common package to fill
   out the `index.html` template.
 
 ## Providing alternate branding
@@ -72,10 +72,10 @@ A minimal viable example of the file is:
 ```json
 {
   "application": {
-    "title": "Trustification"
+    "title": "Guac"
   },
   "about": {
-    "displayName": "Trustification"
+    "displayName": "Guac"
   },
   "masthead": {}
 }
@@ -109,7 +109,7 @@ Use a url string like this:
 and in the output of `BRANDING=special-brand npm run build -w common`, the `imageSrc`
 will be `branding/images/about-logo.svg` with all of the files in `special-branding/*`
 copied to and available to the client and server modules from
-`@trustification-ui/common/branding/*`.
+`@guac-ui/common/branding/*`.
 
 #### favicon.ico
 

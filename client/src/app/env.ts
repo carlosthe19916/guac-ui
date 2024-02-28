@@ -1,5 +1,5 @@
-import { decodeEnv, buildTrustificationEnv } from "@trustification-ui/common";
+import { decodeEnv, buildGuacEnv } from "@guac-ui/common";
 
-export const ENV = buildTrustificationEnv(decodeEnv(window._env));
+export const ENV = buildGuacEnv(decodeEnv(window._env));
 
 export default ENV;

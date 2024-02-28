@@ -1,11 +1,11 @@
 {
-  "name": "@trustification-ui/root",
+  "name": "@guac-ui/root",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/trustification/trustification-ui.git"
+    "url": "https://github.com/carlosthe19916/guac-ui.git"
   },
   "scripts": {
     "clean": "rimraf ./dist && npm run clean -ws --if-present",

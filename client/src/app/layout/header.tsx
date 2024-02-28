@@ -18,6 +18,7 @@ import {
   MenuToggle,
   MenuToggleElement,
   PageToggleButton,
+  Title,
   Toolbar,
   ToolbarContent,
   ToolbarGroup,
@@ -86,6 +87,15 @@ export const HeaderApp: React.FC = () => {
                 alt={leftBrand.alt}
                 heights={{ default: leftBrand.height }}
               />
+            ) : null}
+            {leftTitle ? (
+              <Title
+                className="logo-pointer"
+                headingLevel={leftTitle?.heading ?? "h1"}
+                size={leftTitle?.size ?? "2xl"}
+              >
+                {leftTitle.text}
+              </Title>
             ) : null}
           </MastheadBrand>
         </MastheadMain>

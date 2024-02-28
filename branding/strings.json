@@ -1,13 +1,13 @@
 {
   "application": {
-    "title": "Trustification",
-    "name": "Trustification UI",
-    "description": "Trustification UI"
+    "title": "Guac",
+    "name": "Guac UI",
+    "description": "Guac UI"
   },
   "about": {
-    "displayName": "Trustification",
+    "displayName": "Guac",
     "imageSrc": "<%= brandingRoot %>/images/masthead-logo.svg",
-    "documentationUrl": "https://trustification.io/"
+    "documentationUrl": "https://docs.guac.sh/"
   },
   "masthead": {
     "leftBrand": {
@@ -15,7 +15,10 @@
       "alt": "brand",
       "height": "40px"
     },
-    "leftTitle": null,
+    "leftTitle": {
+      "text": "GUAC",
+      "size": "3xl"
+    },
     "rightBrand": null
   }
 }

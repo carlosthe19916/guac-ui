@@ -11,16 +11,16 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 import {
   encodeEnv,
-  TRUSTIFICATION_ENV,
+  GUAC_ENV,
   SERVER_ENV_KEYS,
   proxyMap,
-} from "@trustification-ui/common";
+} from "@guac-ui/common";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const pathToClientDist = path.join(__dirname, "../../client/dist");
 
-const brandType = TRUSTIFICATION_ENV.PROFILE;
-const port = parseInt(TRUSTIFICATION_ENV.PORT, 10) || 8080;
+const brandType = GUAC_ENV.PROFILE;
+const port = parseInt(GUAC_ENV.PORT, 10) || 8080;
 
 const app = express();
 app.set("x-powered-by", false);
@@ -38,7 +38,7 @@ app.use(express.static(pathToClientDist));
 
 // Handle any request that hasn't already been handled by express.static or proxy
 app.get("*", (_, res) => {
-  if (TRUSTIFICATION_ENV.NODE_ENV === "development") {
+  if (GUAC_ENV.NODE_ENV === "development") {
     res.send(`
       <style>pre { margin-left: 20px; }</style>
       You're running in development mode! The UI is served by webpack-dev-server on port 3000: <a href="http://localhost:3000">http://localhost:3000</a><br /><br />
@@ -47,7 +47,7 @@ app.get("*", (_, res) => {
     `);
   } else {
     res.render("index.html.ejs", {
-      _env: encodeEnv(TRUSTIFICATION_ENV, SERVER_ENV_KEYS),
+      _env: encodeEnv(GUAC_ENV, SERVER_ENV_KEYS),
       brandType,
     });
   }
