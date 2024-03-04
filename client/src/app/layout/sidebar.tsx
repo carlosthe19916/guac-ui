@@ -26,52 +26,22 @@ export const SidebarApp: React.FC = () => {
           </li>
           <li className="pf-v5-c-nav__item">
             <NavLink
-              to="/search"
-              className={({ isActive }) => {
-                return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
-              }}
-            >
-              Search
-            </NavLink>
-          </li>
-          <li className="pf-v5-c-nav__item">
-            <NavLink
-              to="/advisories"
-              className={({ isActive }) => {
-                return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
-              }}
-            >
-              Advisories
-            </NavLink>
-          </li>
-          <li className="pf-v5-c-nav__item">
-            <NavLink
-              to="/sboms"
-              className={({ isActive }) => {
-                return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
-              }}
-            >
-              SBOMs
-            </NavLink>
-          </li>
-          <li className="pf-v5-c-nav__item">
-            <NavLink
-              to="/cves"
-              className={({ isActive }) => {
-                return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
-              }}
-            >
-              CVEs
-            </NavLink>
-          </li>
-          <li className="pf-v5-c-nav__item">
-            <NavLink
               to="/packages"
               className={({ isActive }) => {
                 return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
               }}
             >
               Packages
+            </NavLink>
+          </li>
+          <li className="pf-v5-c-nav__item">
+            <NavLink
+              to="/vulnerabilities"
+              className={({ isActive }) => {
+                return css(LINK_CLASS, isActive ? ACTIVE_LINK_CLASS : "");
+              }}
+            >
+              Vulnerabilities
             </NavLink>
           </li>
         </NavList>

@@ -3,8 +3,7 @@ import { GUAC_ENV } from "./environment.js";
 
 export const proxyMap: Record<string, Options> = {
   "/hub": {
-    target:
-      GUAC_ENV.GUAC_HUB_URL || "http://localhost:8083",
+    target: GUAC_ENV.GUAC_HUB_URL || "http://localhost:8080",
     logLevel: process.env.DEBUG ? "debug" : "info",
 
     changeOrigin: true,

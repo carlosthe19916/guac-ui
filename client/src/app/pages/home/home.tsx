@@ -1,14 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
+  Brand,
   Bullseye,
-  Button,
   Card,
   CardBody,
-  CardFooter,
+  CardHeader,
   CardTitle,
-  Flex,
-  FlexItem,
   Grid,
   GridItem,
   Icon,
@@ -16,19 +15,14 @@ import {
   ListItem,
   PageSection,
   PageSectionVariants,
-  SearchInput,
-  Split,
-  SplitItem,
   Stack,
   StackItem,
   Text,
   TextContent,
 } from "@patternfly/react-core";
-import CheckIcon from "@patternfly/react-icons/dist/esm/icons/check-icon";
-import ShieldIcon from "@patternfly/react-icons/dist/esm/icons/shield-alt-icon";
+import EyeIcon from "@patternfly/react-icons/dist/esm/icons/eye-icon";
 import BugIcon from "@patternfly/react-icons/dist/esm/icons/bug-icon";
-import HandIcon from "@patternfly/react-icons/dist/esm/icons/hand-holding-icon";
-import { useNavigate } from "react-router-dom";
+import CheckIcon from "@patternfly/react-icons/dist/esm/icons/check-icon";
 
 const TEXT_WIDTH = 192;
 
@@ -44,211 +38,125 @@ export const Home: React.FC = () => {
     <>
       <PageSection variant={PageSectionVariants.light}>
         <TextContent>
-          <Text component="h1">Red Hat Trusted Profile Analyzer</Text>
-          <Text component="small">
-            A managed service for software supply chain security
-          </Text>
+          <Text component="h1">GUAC</Text>
+          <Text component="small">Know your software supply chain</Text>
           <Text component="p">
-            The Red Hat Trusted Profile Analyzer service brings awareness to and
-            remediation of Open Source Software (OSS) vulnerabilities that are
-            discovered within the software supply chain. The Red Hat Trusted
-            Profile Analyzer service works within the software supply chain by
-            helping developers to identify, and resolve security vulnerabilities
-            during their development cycle.
+            GUAC gives you directed, actionable insights into the security of
+            your software supply chain.
           </Text>
         </TextContent>
       </PageSection>
       <PageSection variant={PageSectionVariants.default}>
         <Stack hasGutter>
           <StackItem>
-            <Card>
+            <Card isFullHeight>
+              <CardTitle>
+                The current problem with software supply chain security
+              </CardTitle>
               <CardBody>
-                <Stack hasGutter>
-                  <StackItem>
-                    <Bullseye>
-                      <Split hasGutter>
-                        <SplitItem>
-                          <SearchInput
-                            placeholder="Search for an SBOM, Advisory, or CVE"
-                            value={filterText}
-                            onChange={(_event, value) => setFilterText(value)}
-                            onClear={() => setFilterText("")}
-                            style={{ width: 400 }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                redirectToSearch();
-                              }
-                            }}
-                          />
-                        </SplitItem>
-                        <SplitItem>
-                          <Button
-                            variant="primary"
-                            onClick={() => {
-                              redirectToSearch();
-                            }}
-                          >
-                            Search
-                          </Button>
-                        </SplitItem>
-                      </Split>
-                    </Bullseye>
-                  </StackItem>
-                  <StackItem>
-                    <Bullseye>
-                      <Flex>
-                        <FlexItem>
-                          <Card isPlain>
-                            <CardBody>
-                              <Bullseye>
-                                <Icon size="xl">
-                                  <CheckIcon />
-                                </Icon>
-                              </Bullseye>
-                            </CardBody>
-                            <CardFooter>
-                              <Bullseye style={{ width: TEXT_WIDTH }}>
-                                I need an SBOM for..
-                              </Bullseye>
-                            </CardFooter>
-                          </Card>
-                        </FlexItem>
-                        <FlexItem>
-                          <Card isPlain>
-                            <CardBody>
-                              <Bullseye>
-                                <Icon size="xl">
-                                  <ShieldIcon />
-                                </Icon>
-                              </Bullseye>
-                            </CardBody>
-                            <CardFooter>
-                              <Bullseye style={{ width: TEXT_WIDTH }}>
-                                I have an SBOM and need vulnerability
-                                information
-                              </Bullseye>
-                            </CardFooter>
-                          </Card>
-                        </FlexItem>
-                        <FlexItem>
-                          <Card isPlain>
-                            <CardBody>
-                              <Bullseye>
-                                <Icon size="xl">
-                                  <BugIcon />
-                                </Icon>
-                              </Bullseye>
-                            </CardBody>
-                            <CardFooter>
-                              <Bullseye style={{ width: TEXT_WIDTH }}>
-                                I need information on a specific vulnerability
-                              </Bullseye>
-                            </CardFooter>
-                          </Card>
-                        </FlexItem>
-                        <FlexItem>
-                          <Card isPlain>
-                            <CardBody>
-                              <Bullseye>
-                                <Icon size="xl">
-                                  <HandIcon />
-                                </Icon>
-                              </Bullseye>
-                            </CardBody>
-                            <CardFooter>
-                              <Bullseye style={{ width: TEXT_WIDTH }}>
-                                I want to browse by category: UBI, RHEL, …
-                              </Bullseye>
-                            </CardFooter>
-                          </Card>
-                        </FlexItem>
-                      </Flex>
-                    </Bullseye>
-                  </StackItem>
-                </Stack>
+                Software supply chain attacks are on the rise and it’s hard to
+                know what your software is at risk for and how to protect it.
+                Many tools are available to help you generate Software Bills of
+                Materials (SBOMs), signed attestations, and vulnerability
+                reports, but they stop there, leaving you to figure out how they
+                all fit together.
+              </CardBody>
+            </Card>
+          </StackItem>
+          <StackItem>
+            <Card isFullHeight>
+              <CardTitle>How GUAC can help you</CardTitle>
+              <CardBody>
+                These are just a few examples of insights that GUAC can give you
+                to improve your software security posture
               </CardBody>
             </Card>
           </StackItem>
           <StackItem>
             <Grid hasGutter>
-              <GridItem md={6}>
+              <GridItem md={4}>
                 <Card isFullHeight>
-                  <CardTitle>Scan your SBOM</CardTitle>
+                  <CardTitle>Unveils gaps</CardTitle>
                   <CardBody>
-                    By scanning your Software Bill of Materials (SBOM) file, you
-                    receive a detailed report of dependencies, and potential
-                    vulnerabilities within your software stack. Start by
-                    clicking the Scan an SBOM button. Red Hat does not store
-                    SBOM files submitted for scanning.
-                  </CardBody>
-                  <CardFooter>
                     <Bullseye>
-                      <Button variant="primary" size="lg">
-                        Scan an SBOM
-                      </Button>
+                      <Icon size="xl">
+                        <EyeIcon />
+                      </Icon>
                     </Bullseye>
-                  </CardFooter>
+                  </CardBody>
+                  <CardBody>
+                    <List>
+                      <ListItem>
+                        Find the most used critical components in a software
+                        supply chain ecosystem
+                      </ListItem>
+                      <ListItem>
+                        Track if all binaries in production trace back to a
+                        securely managed repository
+                      </ListItem>
+                      <ListItem>
+                        Prevent supply chain compromises before they happen
+                      </ListItem>
+                      <ListItem>Find exposures to risky dependencies</ListItem>
+                    </List>
+                  </CardBody>
                 </Card>
               </GridItem>
-              <GridItem md={6}>
+              <GridItem md={4}>
                 <Card isFullHeight>
-                  <CardTitle>Getting started!</CardTitle>
+                  <CardTitle>Compliance</CardTitle>
                   <CardBody>
-                    <List isPlain>
+                    <Bullseye>
+                      <Icon size="xl">
+                        <CheckIcon />
+                      </Icon>
+                    </Bullseye>
+                  </CardBody>
+                  <CardBody>
+                    <List>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/searching-for-vulnerability-information_tc-qsg"
-                          rel="noreferrer"
-                        >
-                          Searching for vulnerability information
-                        </a>
+                        Determine ownership of applications by organization
                       </ListItem>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/scanning-an-sbom-file_tc-qsg"
-                          rel="noreferrer"
-                        >
-                          Scanning a software bill of materials file
-                        </a>
+                        Look for evidence that the application you're about to
+                        deploy meets your organization's policies
                       </ListItem>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/configuring-visual-studio-code-to-use-dependency-analytics_tc-qsg"
-                          rel="noreferrer"
-                        >
-                          Configuring Visual Studio Code to use Dependency
-                          Analytics
-                        </a>
+                        Determine which application is missing SBOM or SLSA
+                        attestations
                       </ListItem>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/quick_start_guide/configuring-intellij-to-use-dependency-analytics_tc-qsg"
-                          rel="noreferrer"
-                        >
-                          Configuring IntelliJ to use Dependency Analytics
-                        </a>
+                        Conduct SBOM Diffs to quickly determine changes between
+                        versions
+                      </ListItem>
+                    </List>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem md={4}>
+                <Card isFullHeight>
+                  <CardTitle>Threat Detection</CardTitle>
+                  <CardBody>
+                    <Bullseye>
+                      <Icon size="xl">
+                        <BugIcon />
+                      </Icon>
+                    </Bullseye>
+                  </CardBody>
+                  <CardBody>
+                    <List>
+                      <ListItem>
+                        Determine the blast radius of a bad package or a
+                        vulnerability and provide information and a patch plan
+                        towards remediation
                       </ListItem>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/reference_guide/glossary_tc-ref"
-                          rel="noreferrer"
-                        >
-                          Glossary
-                        </a>
+                        Track a suspicious project lifecycle event back to when
+                        it was introduced
                       </ListItem>
                       <ListItem>
-                        <a
-                          target="_blank"
-                          href="https://access.redhat.com/documentation/en-us/red_hat_trusted_profile_analyzer/2023-q4/html/reference_guide/frequently-asked-questions_tc-ref"
-                          rel="noreferrer"
-                        >
-                          Frecuently Asked Questions
-                        </a>
+                        Obtain greater insight into vendor software
+                        vulnerabilities via VEX and project deprecation
                       </ListItem>
                     </List>
                   </CardBody>
