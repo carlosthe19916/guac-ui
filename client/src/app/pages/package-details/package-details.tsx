@@ -17,15 +17,15 @@ export const PackageDetails: React.FC = () => {
 
   const { isFetching, packages, fetchError } = useFetchPackages();
 
-  const packageVersion = React.useMemo(() => {
-    return packages
-      .flatMap((p) => {
-        return p.namespaces
-          .flatMap((ns) => ns.names)
-          .flatMap((packageName) => packageName.versions);
-      })
-      .find((e) => e.id === packageId);
-  }, [packages]);
+  // const packageVersion = React.useMemo(() => {
+  //   return packages
+  //     .flatMap((p) => {
+  //       return p.namespaces
+  //         .flatMap((ns) => ns.names)
+  //         .flatMap((packageName) => packageName.versions);
+  //     })
+  //     .find((e) => e.id === packageId);
+  // }, [packages]);
 
   return (
     <>
@@ -42,7 +42,8 @@ export const PackageDetails: React.FC = () => {
             </Breadcrumb>
           }
           pageHeading={{
-            title: packageVersion?.purl ?? packageId ?? "",
+            // title: packageVersion?.purl ?? packageId ?? "",
+            title: "title",
           }}
           actionButtons={[]}
           tabs={[

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import { getPackageById, getPackages } from "@app/api/rest";
+import { getPackageById, getPackageVersions, getPackages } from "@app/api/rest";
 
 export const PackagesQueryKey = "packages";
 
@@ -36,5 +36,28 @@ export const useFetchPackageById = (id?: string) => {
     pkg: data,
     isFetching: isLoading,
     fetchError: error as AxiosError,
+  };
+};
+
+export const useFetchPackageVersions = (
+  name: string,
+  namespace: string,
+  type: string
+) => {
+  const {
+    data: versions,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: [PackagesQueryKey, "versions", name, namespace, type],
+    queryFn: () => getPackageVersions({ name, namespace, type }),
+  });
+
+  return {
+    versions: versions || [],
+    isFetching: isLoading,
+    fetchError: error,
+    refetch,
   };
 };

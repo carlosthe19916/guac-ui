@@ -1,4 +1,4 @@
-import { gql, request } from "graphql-request";
+import { gql, request, Variables } from "graphql-request";
 
 import { Package, PackageVersion, Vulnerability } from "./models";
 
@@ -11,25 +11,16 @@ interface ApiSearchResult<T> {
 
 export const getPackages = () => {
   const document = gql`
-    {
+    query getPackages {
       packages(pkgSpec: {}) {
         id
         type
         namespaces {
           id
+          namespace
           names {
             id
             name
-            versions {
-              id
-              purl
-              version
-              qualifiers {
-                key
-                value
-              }
-              subpath
-            }
           }
         }
       }
@@ -51,6 +42,36 @@ export const getPackageById = (id: string) => {
   `;
   return request<{ data: { packages: PackageVersion[] } }>(HUB, document).then(
     ({ data }) => data.packages[0]
+  );
+};
+
+export const getPackageVersions = (variables: Variables) => {
+  const document = gql`
+    query getPackages($name: String, $namespace: String, $type: String) {
+      packages(pkgSpec: { name: $name, namespace: $namespace, type: $type }) {
+        namespaces {
+          names {
+            versions {
+              id
+              purl
+              version
+              qualifiers {
+                key
+                value
+              }
+              subpath
+            }
+          }
+        }
+      }
+    }
+  `;
+  return request<{ packages: Package[] }>(HUB, document, variables).then(
+    ({ packages }) =>
+      packages
+        .flatMap((pkg) => pkg.namespaces)
+        .flatMap((namespace) => namespace.names)
+        .flatMap((packageName) => packageName.versions || [])
   );
 };
 

@@ -48,13 +48,14 @@ export interface Package {
 
 export interface PackageNamespace {
   id: string;
+  namespace: string;
   names: PackageName[];
 }
 
 export interface PackageName {
   id: string;
   name: string;
-  versions: PackageVersion[];
+  versions?: PackageVersion[];
 }
 
 export interface PackageVersion {
