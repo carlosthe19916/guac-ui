@@ -3,20 +3,22 @@
 
 import { HubRequestParams } from "@app/api/models";
 import {
-  serializeFilterRequestParamsForHub,
-  getFilterHubRequestParams,
   IGetFilterHubRequestParamsArgs,
-} from "./getFilterHubRequestParams";
+  getFilterHubRequestParams,
+  serializeFilterRequestParamsForHub,
+} from "./filtering";
 import {
-  serializeSortRequestParamsForHub,
-  getSortHubRequestParams,
   IGetSortHubRequestParamsArgs,
-} from "./getSortHubRequestParams";
+  getSortHubRequestParams,
+  serializeSortRequestParamsForHub,
+} from "./sorting";
 import {
-  serializePaginationRequestParamsForHub,
-  getPaginationHubRequestParams,
   IGetPaginationHubRequestParamsArgs,
-} from "./getPaginationHubRequestParams";
+  getPaginationHubRequestParams,
+  serializePaginationRequestParamsForHub,
+} from "./pagination";
+
+// TODO move this outside this directory as part of decoupling Konveyor-specific code from table-controls.
 
 /**
  * Returns params required to fetch server-filtered/sorted/paginated data from the hub API.
@@ -53,19 +55,5 @@ export const serializeRequestParamsForHub = (
   serializeFilterRequestParamsForHub(deserializedParams, serializedParams);
   serializeSortRequestParamsForHub(deserializedParams, serializedParams);
   serializePaginationRequestParamsForHub(deserializedParams, serializedParams);
-
-  // Sikula forces sort to have "sorting" data within the query itself
-  // rather than its own queryParams, therefore:
-  if (serializedParams.has("q") && serializedParams.has("sort")) {
-    serializedParams.set(
-      "q",
-      `${serializedParams.get("q")} (${serializedParams.get("sort")})`
-    );
-    serializedParams.delete("sort");
-  } else if (serializedParams.has("sort")) {
-    serializedParams.set("q", `(${serializedParams.get("sort")})`);
-    serializedParams.delete("sort");
-  }
-
   return serializedParams;
 };

@@ -12,21 +12,30 @@ import {
   PageSectionVariants,
   Text,
   TextContent,
+  Toolbar,
   ToolbarContent,
+  ToolbarItem,
 } from "@patternfly/react-core";
 import {
   ExpandableRowContent,
-  Td as PFTd,
-  Tr as PFTr,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@patternfly/react-table";
 
 import { PackageVersion } from "@app/api/models";
 import { useFetchPackages } from "@app/queries/packages";
+import { useLocalTableControls } from "@app/hooks/table-controls";
+import { FilterToolbar, FilterType } from "@app/components/FilterToolbar";
+import { SimplePagination } from "@app/components/SimplePagination";
 import {
   ConditionalTableBody,
-  FilterType,
-  useClientTableBatteries,
-} from "@carlosthe19916-latest/react-table-batteries";
+  TableHeaderContentWithControls,
+  TableRowContentWithControls,
+} from "@app/components/TableControls";
 
 interface TableData extends PackageVersion {
   type: string;
@@ -64,7 +73,8 @@ export const PackageList: React.FC = () => {
     });
   }, [packages]);
 
-  const tableState = useClientTableBatteries({
+  const tableControls = useLocalTableControls({
+    tableName: "package-table",
     persistTo: "state",
     idProperty: "id",
     items: tableData,
@@ -76,60 +86,52 @@ export const PackageList: React.FC = () => {
       purl: "Purl",
       version: "Version",
     },
-    filter: {
-      isEnabled: true,
-      filterCategories: [
-        {
-          key: "filterText",
-          title: "Filter text",
-          placeholderText: "Search",
-          type: FilterType.search,
-          getItemValue: (item) => item.name || "",
-        },
-        {
-          key: "type",
-          title: "Type",
-          placeholderText: "Type",
-          type: FilterType.multiselect,
-          selectOptions: packageTypes.map((e) => ({ key: e, value: e })),
-        },
-      ],
-    },
-    sort: {
-      isEnabled: true,
-      sortableColumns: ["id", "type", "name", "purl", "version"],
-      getSortValues: (item) => ({
-        id: item.id,
-        type: item.type,
-        name: item.name,
-        purl: item.purl,
-        version: item.version,
-      }),
-    },
-    pagination: { isEnabled: true },
-    expansion: {
-      isEnabled: true,
-      variant: "single",
-    },
+    isFilterEnabled: true,
+    filterCategories: [
+      {
+        categoryKey: "filterText",
+        title: "Filter text",
+        placeholderText: "Search",
+        type: FilterType.search,
+        getItemValue: (item) => item.name || "",
+      },
+      {
+        categoryKey: "type",
+        title: "Type",
+        placeholderText: "Type",
+        type: FilterType.multiselect,
+        selectOptions: packageTypes.map((e) => ({ key: e, value: e })),
+      },
+    ],
+    isSortEnabled: true,
+    sortableColumns: ["id", "type", "name", "purl", "version"],
+    getSortValues: (item) => ({
+      id: item.id,
+      type: item.type,
+      name: item.name,
+      purl: item.purl,
+      version: item.version,
+    }),
+    isPaginationEnabled: true,
+    isExpansionEnabled: true,
+    expandableVariant: "single",
   });
 
   const {
     currentPageItems,
     numRenderedColumns,
-    components: {
-      Table,
-      Thead,
-      Tr,
-      Th,
-      Tbody,
-      Td,
-      Toolbar,
-      FilterToolbar,
-      PaginationToolbarItem,
-      Pagination,
+    propHelpers: {
+      toolbarProps,
+      filterToolbarProps,
+      paginationToolbarItemProps,
+      paginationProps,
+      tableProps,
+      getThProps,
+      getTrProps,
+      getTdProps,
     },
-    expansion: { isCellExpanded },
-  } = tableState;
+    expansionDerivedState: { isCellExpanded },
+  } = tableControls;
 
   return (
     <>
@@ -144,30 +146,29 @@ export const PackageList: React.FC = () => {
             backgroundColor: "var(--pf-v5-global--BackgroundColor--100)",
           }}
         >
-          <Toolbar>
+          <Toolbar {...toolbarProps}>
             <ToolbarContent>
-              <FilterToolbar
-                id="package-toolbar"
-                {...{ showFiltersSideBySide: true }}
-              />
-              <PaginationToolbarItem>
-                <Pagination
-                  variant="top"
-                  isCompact
-                  widgetId="package-pagination-top"
+              <FilterToolbar showFiltersSideBySide {...filterToolbarProps} />
+              <ToolbarItem {...paginationToolbarItemProps}>
+                <SimplePagination
+                  idPrefix="package-table"
+                  isTop
+                  paginationProps={paginationProps}
                 />
-              </PaginationToolbarItem>
+              </ToolbarItem>
             </ToolbarContent>
           </Toolbar>
 
-          <Table aria-label="Packages details table">
+          <Table {...tableProps} aria-label="Package table">
             <Thead>
-              <Tr isHeaderRow>
-                <Th columnKey="id" />
-                <Th columnKey="type" />
-                <Th columnKey="name" />
-                <Th columnKey="purl" />
-                <Th columnKey="version" />
+              <Tr>
+                <TableHeaderContentWithControls {...tableControls}>
+                  <Th {...getThProps({ columnKey: "id" })} />
+                  <Th {...getThProps({ columnKey: "type" })} />
+                  <Th {...getThProps({ columnKey: "name" })} />
+                  <Th {...getThProps({ columnKey: "purl" })} />
+                  <Th {...getThProps({ columnKey: "version" })} />
+                </TableHeaderContentWithControls>
               </Tr>
             </Thead>
             <ConditionalTableBody
@@ -179,26 +180,50 @@ export const PackageList: React.FC = () => {
               {currentPageItems?.map((item, rowIndex) => {
                 return (
                   <Tbody key={item.id}>
-                    <Tr item={item} rowIndex={rowIndex}>
-                      <Td width={10} columnKey="id">
-                        <NavLink to={`/packages/${item.id}`}>{item.id}</NavLink>
-                      </Td>
-                      <Td width={10} modifier="truncate" columnKey="type">
-                        {item.type}
-                      </Td>
-                      <Td width={20} modifier="truncate" columnKey="name">
-                        {item.name}
-                      </Td>
-                      <Td width={50} modifier="truncate" columnKey="purl">
-                        {item.purl}
-                      </Td>
-                      <Td width={10} modifier="truncate" columnKey="version">
-                        {item.version}
-                      </Td>
+                    <Tr {...getTrProps({ item })}>
+                      <TableRowContentWithControls
+                        {...tableControls}
+                        item={item}
+                        rowIndex={rowIndex}
+                      >
+                        <Td width={10} {...getTdProps({ columnKey: "id" })}>
+                          <NavLink to={`/packages/${item.id}`}>
+                            {item.id}
+                          </NavLink>
+                        </Td>
+                        <Td
+                          width={10}
+                          modifier="truncate"
+                          {...getTdProps({ columnKey: "type" })}
+                        >
+                          {item.type}
+                        </Td>
+                        <Td
+                          width={20}
+                          modifier="truncate"
+                          {...getTdProps({ columnKey: "name" })}
+                        >
+                          {item.name}
+                        </Td>
+                        <Td
+                          width={50}
+                          modifier="truncate"
+                          {...getTdProps({ columnKey: "purl" })}
+                        >
+                          {item.purl}
+                        </Td>
+                        <Td
+                          width={10}
+                          modifier="truncate"
+                          {...getTdProps({ columnKey: "version" })}
+                        >
+                          {item.version}
+                        </Td>
+                      </TableRowContentWithControls>
                     </Tr>
                     {isCellExpanded(item) ? (
-                      <PFTr isExpanded>
-                        <PFTd colSpan={7}>
+                      <Tr isExpanded>
+                        <Td colSpan={7}>
                           <div className="pf-v5-u-m-md">
                             <ExpandableRowContent>
                               <DescriptionList>
@@ -227,8 +252,8 @@ export const PackageList: React.FC = () => {
                               </DescriptionList>
                             </ExpandableRowContent>
                           </div>
-                        </PFTd>
-                      </PFTr>
+                        </Td>
+                      </Tr>
                     ) : null}
                   </Tbody>
                 );
@@ -236,10 +261,11 @@ export const PackageList: React.FC = () => {
             </ConditionalTableBody>
           </Table>
 
-          <Pagination
-            variant="bottom"
+          <SimplePagination
+            idPrefix="package-table"
+            isTop={false}
             isCompact
-            widgetId="packages-pagination-bottom"
+            paginationProps={paginationProps}
           />
         </div>
       </PageSection>

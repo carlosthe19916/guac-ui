@@ -1,10 +1,12 @@
 ## Requisites
 
+Follow the instructions from https://docs.guac.sh/setup/#step-1-download-guac to install GUAC.
+
 - Install Guacone
 - Start GUAC
 
 ```shell
-docker compose -f docker-compose.yml -f container_files/mem.yaml up --force-recreate
+docker compose -f guac-demo-compose.yaml up --force-recreate
 ```
 
 - Ingest data
@@ -13,6 +15,8 @@ docker compose -f docker-compose.yml -f container_files/mem.yaml up --force-recr
 guacone collect files guac-data-main/docs
 ```
 
+- See the query UI on http://localhost:8080
+
 ## Spog UI
 
 ### Development mode
@@ -20,7 +24,7 @@ guacone collect files guac-data-main/docs
 - Install dependencies
 
 ```shell
-npm ci
+npm ci --ignore-scripts
 ```
 
 - Start dev mode

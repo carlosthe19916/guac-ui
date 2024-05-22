@@ -2,9 +2,9 @@ import { HubFilter, HubRequestParams } from "@app/api/models";
 import { objectKeys } from "@app/utils/utils";
 import {
   FilterCategory,
-  FilterState,
   getFilterLogicOperator,
-} from "@carlosthe19916-latest/react-table-batteries";
+} from "@app/components/FilterToolbar";
+import { IFilterState } from "./useFilterState";
 
 /**
  * Helper function for getFilterHubRequestParams
@@ -61,7 +61,7 @@ export interface IGetFilterHubRequestParamsArgs<
   /**
    * The "source of truth" state for the filter feature (returned by useFilterState)
    */
-  filter?: FilterState<TFilterCategoryKey>;
+  filterState?: IFilterState<TFilterCategoryKey>;
   /**
    * Definitions of the filters to be used (must include `getItemValue` functions for each category when performing filtering locally)
    */
@@ -78,7 +78,7 @@ export const getFilterHubRequestParams = <
   TItem,
   TFilterCategoryKey extends string = string,
 >({
-  filter,
+  filterState,
   filterCategories,
   implicitFilters,
 }: IGetFilterHubRequestParamsArgs<
@@ -87,18 +87,18 @@ export const getFilterHubRequestParams = <
 >): Partial<HubRequestParams> => {
   if (
     !implicitFilters?.length &&
-    (!filter ||
+    (!filterState ||
       !filterCategories ||
-      objectKeys(filter.filterValues).length === 0)
+      objectKeys(filterState.filterValues).length === 0)
   ) {
     return {};
   }
   const filters: HubFilter[] = [];
-  if (filter) {
-    const { filterValues } = filter;
+  if (filterState) {
+    const { filterValues } = filterState;
     objectKeys(filterValues).forEach((categoryKey) => {
       const filterCategory = filterCategories?.find(
-        (category) => category.key === categoryKey
+        (category) => category.categoryKey === categoryKey
       );
       const filterValue = filterValues[categoryKey];
       if (!filterCategory || !filterValue) return;
@@ -160,65 +160,17 @@ export const wrapInQuotesAndEscape = (value: string | number): string =>
  */
 export const serializeFilterForHub = (filter: HubFilter): string => {
   const { field, operator, value } = filter;
+  const joinedValue =
+    typeof value === "string"
+      ? value
+      : typeof value === "number"
+        ? `"${value}"`
+        : `(${value.list.join(value.operator === "OR" ? "|" : ",")})`;
 
-  let sikula: (fieldName: string, fieldValue: string) => string = () => "";
-  switch (operator) {
-    case "=":
-      sikula = (fieldName, fieldValue) => {
-        const f = fieldName.split(":");
-        if (f.length == 2) {
-          switch (f[1]) {
-            case "in":
-              return `(${fieldValue} in:${f[0]})`;
-            case "is":
-              return `(is:${fieldValue})`;
-          }
-        }
-
-        return `${fieldName}:${fieldValue}`;
-      };
-      break;
-    case "!=":
-      sikula = (fieldName, fieldValue) => {
-        return `-${fieldName}:${fieldValue}`;
-      };
-      break;
-    case "~":
-      sikula = (_, fieldValue) => {
-        return fieldValue;
-      };
-      break;
-    case ">":
-      sikula = (fieldName, fieldValue) => {
-        return `-${fieldName}:>${fieldValue}`;
-      };
-      break;
-    case "<":
-      sikula = (fieldName, fieldValue) => {
-        return `-${fieldName}:<${fieldValue}`;
-      };
-      break;
-    case "<=":
-      sikula = (fieldName, fieldValue) => {
-        return `-${fieldName}:<=${fieldValue}`;
-      };
-      break;
-    case ">=":
-      sikula = (fieldName, fieldValue) => {
-        return `-${fieldName}:>=${fieldValue}`;
-      };
-      break;
-  }
-
-  if (typeof value === "string") {
-    return sikula(field, wrapInQuotesAndEscape(value));
-  } else if (typeof value === "number") {
-    return sikula(field, `"${value}"`);
+  if (!field) {
+    return joinedValue;
   } else {
-    return value.list
-      .map(wrapInQuotesAndEscape)
-      .map((val) => sikula(field, val))
-      .join(` ${value.operator || "AND"} `);
+    return `${field}${operator}${joinedValue}`;
   }
 };
 
@@ -236,7 +188,10 @@ export const serializeFilterRequestParamsForHub = (
   if (filters) {
     serializedParams.append(
       "q",
-      `(${filters.map(serializeFilterForHub).join(")(")})`
+      filters
+        .filter((e) => e.value !== null && e.value !== undefined)
+        .map(serializeFilterForHub)
+        .join(",")
     );
   }
 };
