@@ -2,11 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Brand,
   Bullseye,
   Card,
   CardBody,
-  CardHeader,
   CardTitle,
   Grid,
   GridItem,
@@ -118,8 +116,8 @@ export const Home: React.FC = () => {
                         Determine ownership of applications by organization
                       </ListItem>
                       <ListItem>
-                        Look for evidence that the application you're about to
-                        deploy meets your organization's policies
+                        Look for evidence that the application you{"'"}re about
+                        to deploy meets your organization{"'"}s policies
                       </ListItem>
                       <ListItem>
                         Determine which application is missing SBOM or SLSA
