@@ -19,7 +19,7 @@ jobs:
     with:
       registry: "quay.io/carlosthe19916"
       image_name: "guac-ui"
-      containerfile: "./Dockerfile"
+      containerfile: "./Containerfile"
       architectures: '[ "amd64", "arm64" ]'
       extra-args: "--ulimit nofile=4096:4096"
       pre_build_cmd: |
